@@ -11,6 +11,8 @@ import './js-canvas.js'; // Canvas2D JS implementation
 
 import './pathkit-canvas.js'; // Canvas2D + PathKit implementation
 
+import './offscreen-canvas.js'; // Offscreen Canvas2D + Web Worker implementation
+
 import './toolbar.js';
 export class MainApplication extends LitElement {
   firstUpdated() {
@@ -297,7 +299,7 @@ _defineProperty(MainApplication, "styles", css`
       height: 100vh;
     }
 
-    js-canvas, pathkit-canvas {
+    js-canvas, pathkit-canvas, offscreen-canvas {
       position: absolute;
       top: 0px;
       left: 0px;

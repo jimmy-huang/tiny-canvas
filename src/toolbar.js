@@ -425,6 +425,11 @@ export class Toolbar extends LitElement {
     this._triggerPropertyUpdate();
   }
 
+  _rendererOffscreenSelected() {
+    this.renderingType = 'offscreen-canvas';
+    this._triggerPropertyUpdate();
+  }
+
   _triggerPropertyUpdate() {
     // update all properties that changed for the new canvas
     this.desynchronizedEnabled = this.desynchronizedEnabled;
@@ -544,6 +549,9 @@ export class Toolbar extends LitElement {
         </mwc-formfield>
         <mwc-formfield label="Canvas2D + PathKit">
           <mwc-radio name="renderingType" value="pathkit-canvas" @change="${this._rendererPathKitSelected}"></mwc-radio>
+        </mwc-formfield>
+        <mwc-formfield label="Offscreen Canvas2D + Web Worker">
+          <mwc-radio name="renderingType" value="offscreen-canvas" @change="${this._rendererOffscreenSelected}"></mwc-radio>
         </mwc-formfield>
       </div>
       <div class="color-grid">

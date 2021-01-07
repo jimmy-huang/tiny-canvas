@@ -27,7 +27,6 @@ export class PathKitCanvasRenderer extends BaseCanvasRenderer {
     });
   }
 
-
   resize(width, height) {
     this._canvas.width  = this._predictionCanvas.width = width;
     this._canvas.height =  this._predictionCanvas.height = height;
