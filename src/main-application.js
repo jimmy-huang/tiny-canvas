@@ -118,6 +118,8 @@ export class MainApplication extends LitElement {
     this._redoButton.onpointerdown = this._redoPath.bind(this);
     this._deleteButton = this.shadowRoot.querySelector('#delete-button');
     this._deleteButton.onpointerdown = this._deleteAllPaths.bind(this);
+    this._undoButton.disabled = true;
+    this._redoButton.disabled = true;
     this._infoPanel = this.shadowRoot.querySelector('#info-panel');
     this._infoPanel.style.visibility = 'hidden';
     this._infoPanel.onpointerdown = this._onDragStart.bind(this);
@@ -297,6 +299,17 @@ export class MainApplication extends LitElement {
     this._mainCanvas.drawPointsOnly = event.detail.drawPointsOnlyEnabled;
   }
 
+  _pathsChanged(event) {
+    let paths = event.detail.paths;
+    if (paths.length === 0) {
+      this._undoButton.disabled = true;
+      this._redoButton.disabled = true;
+    } else {
+      this._undoButton.disabled = !paths[0].display?true:false;
+      this._redoButton.disabled = paths[paths.length-1].display?true:false;
+    }
+  }
+
   render() {
     return html`
     <mwc-drawer id="drawer" hasHeader type="modal">
@@ -326,7 +339,7 @@ export class MainApplication extends LitElement {
           <mwc-icon-button slot="actionItems" id="info-button" icon="info"></mwc-icon-button>
           <mwc-icon-button slot="actionItems" id="delete-button" icon="delete_forever"></mwc-icon-button>
         </mwc-top-app-bar>
-        <main-canvas id="main-canvas"></main-canvas>
+        <main-canvas id="main-canvas" @paths-changed=${this._pathsChanged}></main-canvas>
         <info-panel id="info-panel"></info-panel>
       </div>
     </mwc-drawer>

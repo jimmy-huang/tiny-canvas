@@ -269,6 +269,24 @@ export class BaseCanvas extends LitElement {
     return this._numOfPredictionPoints;
   }
 
+  set paths(paths) {
+    let oldPaths = this._paths;
+    this._paths = paths;
+    let event = new CustomEvent('paths-changed', {
+      detail: {
+        paths: paths
+      },
+      bubbles: true,
+      composed: true
+    });
+    this.dispatchEvent(event);
+    this.requestUpdate('paths', oldPaths);
+  }
+
+  get paths() {
+    return this._paths;
+  }
+
   firstUpdated() {
     const style = window.getComputedStyle(this);
     this._canvas = this.shadowRoot.querySelector('#canvas');
@@ -352,6 +370,7 @@ export class BaseCanvas extends LitElement {
       if (this._rafId) {
         this._renderer.endPath(this._getPoint(event));
 
+        this.paths = this._renderer.paths;
         window.cancelAnimationFrame(this._rafId);
         this._rafId = null;
       }
@@ -396,6 +415,7 @@ export class BaseCanvas extends LitElement {
   undoPath() {
     this._renderer.undoPath();
 
+    this.paths = this._renderer.paths;
     this.latestEvent = null;
     this._rafId = window.requestAnimationFrame(this._onAnimationFrame.bind(this));
   }
@@ -403,6 +423,7 @@ export class BaseCanvas extends LitElement {
   redoPath() {
     this._renderer.redoPath();
 
+    this.paths = this._renderer.paths;
     this.latestEvent = null;
     this._rafId = window.requestAnimationFrame(this._onAnimationFrame.bind(this));
   }
@@ -410,6 +431,7 @@ export class BaseCanvas extends LitElement {
   deleteAllPaths() {
     this._renderer.deleteAllPaths();
 
+    this.paths = this._renderer.paths;
     this.latestEvent = null;
     this._rafId = window.requestAnimationFrame(this._onAnimationFrame.bind(this));
   }

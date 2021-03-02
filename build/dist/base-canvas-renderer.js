@@ -1,4 +1,13 @@
 export class BaseCanvasRenderer {
+  set paths(paths) {
+    this._paths = paths;
+    this.updateProperty('paths', paths);
+  }
+
+  get paths() {
+    return this._paths;
+  }
+
   set currentColor(currentColor) {
     this._currentColor = currentColor;
     this.updateProperty('currentColor', currentColor);
